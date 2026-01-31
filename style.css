@@ -172,8 +172,31 @@ tbody tr:nth-child(odd) .price {
     cursor: not-allowed;
 }
 
-#page-info {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--text-on-white);
+/* Description hover reveal */
+.description-cell {
+    font-size: 0.85rem;
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    transition: max-width 0.5s ease-in-out, opacity 0.3s;
+    opacity: 0;
+    color: #7f8c8d;
 }
+
+tbody tr:hover .description-cell {
+    max-width: 400px;
+    opacity: 1;
+    white-space: normal;
+}
+
+/* Adjust heading for description */
+thead th:nth-child(5) {
+    width: 20px;
+    /* Small width for hidden column */
+    transition: width 0.5s;
+}
+
+/* When hover on table, expand the header too if needed, 
+   but usually it's better to just leave the header small 
+   or give it a fixed width. */
