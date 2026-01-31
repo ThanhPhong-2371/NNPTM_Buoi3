@@ -1,0 +1,179 @@
+:root {
+    --bg-color: #f4f7f6;
+    --header-bg: #2c3e50;
+    --header-text: #ffffff;
+    --row-black: #2c3e50;
+    --row-white: #ffffff;
+    --text-on-black: #ecf0f1;
+    --text-on-white: #34495e;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 20px;
+    color: var(--text-on-white);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    color: var(--header-bg);
+    margin-bottom: 30px;
+}
+
+.table-container {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+}
+
+thead th {
+    background-color: var(--header-bg);
+    color: var(--header-text);
+    padding: 15px;
+    text-align: left;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+}
+
+thead th.sortable {
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s;
+}
+
+thead th.sortable:hover {
+    background-color: #34495e;
+}
+
+.sort-icon {
+    display: inline-block;
+    margin-left: 5px;
+    font-size: 0.8rem;
+    color: #bdc3c7;
+}
+
+thead th.active-sort .sort-icon {
+    color: #f1c40f;
+}
+
+tbody td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+/* Zebra striping: 1 black, 1 white */
+tbody tr:nth-child(odd) {
+    background-color: var(--row-black);
+    color: var(--text-on-black);
+}
+
+tbody tr:nth-child(even) {
+    background-color: var(--row-white);
+    color: var(--text-on-white);
+}
+
+/* Image styling */
+.product-img-container {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    max-width: 250px;
+}
+
+.product-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    transition: transform 0.2s;
+}
+
+.product-img:hover {
+    transform: scale(1.5);
+    z-index: 10;
+}
+
+.price {
+    font-weight: bold;
+    color: #e67e22;
+}
+
+/* Adjust price color on dark rows */
+tbody tr:nth-child(odd) .price {
+    color: #f39c12;
+}
+
+/* Pagination styles */
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: white;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.page-size label {
+    margin-right: 10px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.page-size select {
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    outline: none;
+    cursor: pointer;
+}
+
+.page-nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-btn {
+    padding: 8px 20px;
+    background-color: var(--header-bg);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s, opacity 0.2s;
+}
+
+.nav-btn:hover {
+    background-color: #34495e;
+}
+
+.nav-btn:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+}
+
+#page-info {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-on-white);
+}

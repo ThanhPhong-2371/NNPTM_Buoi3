@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sản phẩm Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Dashboard Sản phẩm</h1>
+        <div class="table-container">
+            <table id="product-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Hình ảnh</th>
+                        <th class="sortable" data-sort="title">
+                            Tên sản phẩm <span class="sort-icon" id="sort-title">↕</span>
+                        </th>
+                        <th class="sortable" data-sort="price">
+                            Giá <span class="sort-icon" id="sort-price">↕</span>
+                        </th>
+                        <th>Mô tả</th>
+                        <th>Danh mục</th>
+                    </tr>
+                </thead>
+                <tbody id="product-list">
+                    <!-- Data will be populated here -->
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination">
+            <div class="page-size">
+                <label for="page-size-select">Số sản phẩm mỗi trang:</label>
+                <select id="page-size-select">
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="20">20</option>
+                </select>
+            </div>
+            <div class="page-nav">
+                <button id="prev-btn" class="nav-btn">Trước</button>
+                <span id="page-info">Trang 1 / 1</span>
+                <button id="next-btn" class="nav-btn">Sau</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
