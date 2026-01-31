@@ -6,6 +6,7 @@ let currentPage = 1;
 let itemsPerPage = 10;
 let sortColumn = null; // 'title' or 'price'
 let sortOrder = 'asc'; // 'asc' or 'desc'
+let searchQuery = '';
 
 /**
  * Hàm lấy toàn bộ sản phẩm từ API
@@ -25,22 +26,33 @@ async function getAllProducts() {
 }
 
 /**
+ * Lấy danh sách sản phẩm đã được lọc theo tìm kiếm
+ */
+function getFilteredProducts() {
+    if (!searchQuery) return allProducts;
+    return allProducts.filter(product =>
+        product.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+}
+
+/**
  * Hiển thị sản phẩm theo trang
  */
 function displayPage() {
+    const filteredProducts = getFilteredProducts();
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const paginatedItems = allProducts.slice(startIndex, endIndex);
+    const paginatedItems = filteredProducts.slice(startIndex, endIndex);
 
     renderProducts(paginatedItems);
-    updatePaginationControls();
+    updatePaginationControls(filteredProducts.length);
 }
 
 /**
  * Cập nhật trạng thái các nút phân trang
  */
-function updatePaginationControls() {
-    const totalPages = Math.ceil(allProducts.length / itemsPerPage);
+function updatePaginationControls(totalItems) {
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
     document.getElementById('page-info').textContent = `Trang ${currentPage} / ${totalPages || 1}`;
 
     document.getElementById('prev-btn').disabled = currentPage === 1;
@@ -55,7 +67,7 @@ function renderProducts(products) {
     productList.innerHTML = '';
 
     if (products.length === 0) {
-        productList.innerHTML = '<tr><td colspan="6" style="text-align:center;">Không có sản phẩm nào.</td></tr>';
+        productList.innerHTML = '<tr><td colspan="6" style="text-align:center;">Không tìm thấy sản phẩm nào phù hợp.</td></tr>';
         return;
     }
 
@@ -113,11 +125,6 @@ function renderProducts(products) {
         // Loai bo cac link trung lap
         allImageUrls = [...new Set(allImageUrls)];
 
-        // Debug logo cho san pham dau tien neu chua hien anh
-        if (index === 0) {
-            console.log('Product ID:', product.id, 'Original images:', product.images, 'Cleaned URLs:', allImageUrls);
-        }
-
         const imagesHtml = allImageUrls.map(url => {
             return `<img src="${url}" alt="${product.title}" class="product-img" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='https://placehold.co/60?text=Error';">`;
         }).join('');
@@ -155,8 +162,8 @@ function sortProducts(column) {
 
         // Handle case-insensitive string comparison for title
         if (column === 'title') {
-            valA = valA.toLowerCase();
-            valB = valB.toLowerCase();
+            valA = (valA || '').toLowerCase();
+            valB = (valB || '').toLowerCase();
         }
 
         if (valA < valB) return sortOrder === 'asc' ? -1 : 1;
@@ -176,14 +183,14 @@ function updateSortUI() {
     document.querySelectorAll('.sortable').forEach(th => {
         th.classList.remove('active-sort');
         const icon = th.querySelector('.sort-icon');
-        icon.textContent = '↕';
+        if (icon) icon.textContent = '↕';
     });
 
     const activeTh = document.querySelector(`.sortable[data-sort="${sortColumn}"]`);
     if (activeTh) {
         activeTh.classList.add('active-sort');
         const icon = activeTh.querySelector('.sort-icon');
-        icon.textContent = sortOrder === 'asc' ? '↑' : '↓';
+        if (icon) icon.textContent = sortOrder === 'asc' ? '↑' : '↓';
     }
 }
 
@@ -203,9 +210,9 @@ document.getElementById('prev-btn').addEventListener('click', () => {
     }
 });
 
-
 document.getElementById('next-btn').addEventListener('click', () => {
-    const totalPages = Math.ceil(allProducts.length / itemsPerPage);
+    const totalItems = getFilteredProducts().length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
     if (currentPage < totalPages) {
         currentPage++;
         displayPage();
@@ -219,6 +226,12 @@ document.getElementById('page-size-select').addEventListener('change', (e) => {
     displayPage();
 });
 
+document.getElementById('search-input').addEventListener('input', (e) => {
+    searchQuery = e.target.value;
+    currentPage = 1; // Reset to first page when searching
+    displayPage();
+});
+
 // Khởi tạo dashboard
 async function initDashboard() {
     allProducts = await getAllProducts();
@@ -226,4 +239,5 @@ async function initDashboard() {
 }
 
 document.addEventListener('DOMContentLoaded', initDashboard);
+
 

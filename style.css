@@ -27,6 +27,29 @@ h1 {
     margin-bottom: 30px;
 }
 
+.search-container {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+#search-input {
+    width: 100%;
+    max-width: 500px;
+    padding: 12px 20px;
+    border: 2px solid #ddd;
+    border-radius: 25px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+#search-input:focus {
+    border-color: var(--header-bg);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 .table-container {
     background: white;
     border-radius: 8px;
